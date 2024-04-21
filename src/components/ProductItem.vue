@@ -30,9 +30,11 @@ const formattedPrice = computed(() => {
       <p class="product__content-size">Size
         <span class="product__content-required">*</span>
       </p>
-      <div class="product__content-size-button" v-for="size in product?.sizeOptions" :key="size.id">
+      <div class="product__size-button" v-for="size in product?.sizeOptions" :key="size.id">
         {{ size.label }}
       </div>
+
+      <button class="product__add-to-cart-button">Add to Cart</button>
     </div>
   </div>
 </template>
@@ -75,14 +77,30 @@ const formattedPrice = computed(() => {
   margin-top: 2rem;
   margin-bottom: 0.5rem;
 }
-.product__content-size-button {
+.product__size-button {
   display: inline-block;
   font-size: 0.7rem;
-  border: 1px solid var(--color-size-buttons);
+  border: 1px solid var(--color-border-light);
   padding: 0.8rem 1.2rem;
   margin-right: 0.5rem;
 }
-.product__content-size-button:hover {
+.product__size-button:hover, .product__add-to-cart-button:hover {
   cursor: pointer;
+}
+.product__add-to-cart-button {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--color-border-dark);
+  background-color: var(--color-background);
+  border: 2px solid var(--color-border-dark);
+  padding: 0.8rem 1.4rem;
+  margin-top: 1.5rem;
+  transition: all 0.2s ease-in-out;
+}
+.product__add-to-cart-button:hover {
+  background-color: var(--color-border-dark);
+  color: var(--color-background);
 }
 </style>

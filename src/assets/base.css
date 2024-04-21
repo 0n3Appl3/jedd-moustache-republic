@@ -31,7 +31,6 @@
 /* semantic color variables for this project */
 :root {
   --color-header-background: var(--mr-c-grey-light-1);
-  --color-size-buttons: var(--mr-c-grey-light-2);
   --color-required-star: var(--mr-c-red);
   --color-border-light: var(--mr-c-grey-light-2);
   --color-border-dark: var(--mr-c-grey-dark);

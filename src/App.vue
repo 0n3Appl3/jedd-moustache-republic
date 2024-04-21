@@ -33,6 +33,9 @@ header {
   font-size: 0.7rem;
   text-align: right;
 }
+header > span:hover {
+  cursor: pointer;
+}
 /*
 @media (min-width: 1024px) {
   header {
