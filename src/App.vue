@@ -18,7 +18,7 @@ onMounted(async () => {
 
 <template>
   <header>
-    <p>{{ product }}</p>
+    <span>My Cart (0)</span>
   </header>
 
   <main>
@@ -32,10 +32,13 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-/* header {
-  line-height: 1.5;
+header {
+  background-color: var(--color-header-background);
+  padding: 0.2rem var(--padding-sides);
+  font-size: 0.7rem;
+  text-align: right;
 }
-
+/*
 @media (min-width: 1024px) {
   header {
     display: flex;
