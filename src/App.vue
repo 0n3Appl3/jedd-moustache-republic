@@ -1,30 +1,39 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { onMounted, ref } from 'vue'
+import ProductItem from './components/ProductItem.vue'
+
+const product = ref()
+
+/*
+ * Retrieve product information
+ */
+onMounted(async () => {
+  await fetch(import.meta.env.VITE_PRODUCT)
+    .then((response) => response.json())
+    .then((data): any => {
+      product.value = data
+    })
+})
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
+    <p>{{ product }}</p>
   </header>
 
   <main>
-    <TheWelcome />
+    <ProductItem
+      :title="product?.title"
+      :description="product?.description"
+      :price="product?.price"
+      :image="product?.imageURL"
+    />
   </main>
 </template>
 
 <style scoped>
-header {
+/* header {
   line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
 }
 
 @media (min-width: 1024px) {
@@ -43,5 +52,5 @@ header {
     place-items: flex-start;
     flex-wrap: wrap;
   }
-}
+} */
 </style>
