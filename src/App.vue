@@ -22,12 +22,7 @@ onMounted(async () => {
   </header>
 
   <main>
-    <ProductItem
-      :title="product?.title"
-      :description="product?.description"
-      :price="product?.price"
-      :image="product?.imageURL"
-    />
+    <ProductItem :product="product" />
   </main>
 </template>
 

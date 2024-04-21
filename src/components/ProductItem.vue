@@ -2,22 +2,13 @@
 import { computed } from 'vue'
 
 const props = defineProps({
-  title: {
-    type: String
+  product: {
+    type: Object
   },
-  description: {
-    type: String
-  },
-  price: {
-    type: Number
-  },
-  image: {
-    type: String
-  }
 })
 
 const formattedPrice = computed(() => {
-  return props.price?.toLocaleString('en-NZ', {
+  return props.product?.price.toLocaleString('en-NZ', {
     style: 'currency',
     currency: 'NZD',
   })
@@ -27,14 +18,21 @@ const formattedPrice = computed(() => {
 <template>
   <div class="product__container">
     <div class="product__image">
-      <img :src="props.image" alt="Product Image" />
+      <img :src="props.product?.imageURL" alt="Product Image" />
     </div>
     <div class="product__content">
-      <p class="product__content-title">{{ title }}</p>
+      <p class="product__content-title">{{ product?.title }}</p>
       <hr />
       <p class="product__content-price">{{ formattedPrice }}</p>
       <hr />
-      <p class="product__content-description">{{ description }}</p>
+      <p class="product__content-description">{{ product?.description }}</p>
+
+      <p class="product__content-size">Size
+        <span class="product__content-required">*</span>
+      </p>
+      <div class="product__content-size-button" v-for="size in product?.sizeOptions" :key="size.id">
+        {{ size.label }}
+      </div>
     </div>
   </div>
 </template>
@@ -65,5 +63,26 @@ const formattedPrice = computed(() => {
 .product__content-description {
   font-size: 0.8rem;
   margin-top: 1rem;
+}
+.product__content-required {
+  color: var(--color-required-star);
+}
+.product__content-size {
+  font-size: 0.7rem;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+.product__content-size-button {
+  display: inline-block;
+  font-size: 0.7rem;
+  border: 1px solid var(--color-size-buttons);
+  padding: 0.8rem 1.2rem;
+  margin-right: 0.5rem;
+}
+.product__content-size-button:hover {
+  cursor: pointer;
 }
 </style>
