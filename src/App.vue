@@ -20,28 +20,48 @@ onMounted(async () => {
 })
 
 const cartSize = computed(() => {
-  return cart.value.length
+  let size = 0
+  if (getCartItems.value.length === 0) {
+    return 0
+  }
+  for (let i = 0; i < getCartItems.value.length; i++) {
+    size += getCartItems.value[i].quantity
+  }
+  return size
 })
 
 const addProductToCart = (item: any) => {
+  if (getCartItems.value.length === 0) {
+    cart.value.push(item)
+    return
+  }
+  for (let i = 0; i < getCartItems.value.length; i++) {
+    if (getCartItems.value[i].title === item.title && getCartItems.value[i].size === item.size) {
+      getCartItems.value[i].quantity++
+      return
+    }
+  }
   cart.value.push(item)
-  console.log(cart.value)
 }
 
-const openCart = () => {
-  showCart.value = true
+const toggleCart = () => {
+  showCart.value = !showCart.value
 }
+
+const getCartItems = computed(() => {
+  return cart.value
+})
 </script>
 
 <template>
   <header>
-    <span @click="openCart">My Cart ({{ cartSize }})</span>
+    <span @click="toggleCart">My Cart ({{ cartSize }})</span>
   </header>
 
   <main>
     <ProductItem :product="product" @add-product-to-cart="(item) => addProductToCart(item)" />
     <div v-if="showCart">
-      <ItemCartPreview v-for="item in cart.value" :key="item" :item="item" />
+      <ItemCartPreview v-for="item in getCartItems" :key="item" :item="item" />
     </div>
   </main>
 </template>
@@ -67,22 +87,4 @@ main {
     padding: 2rem var(--padding-sides-small);
   }
 }
-/*
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-} */
 </style>

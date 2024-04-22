@@ -16,11 +16,15 @@ const props = defineProps({
     <div class="item__content">
       <p class="item__title">{{ props.item?.title }}</p>
       <p class="item__price">
-        {{}}x <strong>{{ props.item?.price }}</strong>
+        {{ props.item?.quantity }}x <strong>{{ props.item?.price }}</strong>
       </p>
       <p class="item__size">Size: {{ props.item?.size }}</p>
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.item__container {
+  display: block;
+}
+</style>
