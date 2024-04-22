@@ -1,11 +1,18 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 const props = defineProps({
   product: {
     type: Object
   },
 })
+const emit = defineEmits(['addProductToCart'])
+
+const sizeButtonClass = ref("product__size-button")
+const sizeButtonSelectedClass = ref("product__size-button--selected")
+
+const selectedSize = ref(null)
+const showError = ref(false)
 
 const formattedPrice = computed(() => {
   return props.product?.price.toLocaleString('en-NZ', {
@@ -13,6 +20,38 @@ const formattedPrice = computed(() => {
     currency: 'NZD',
   })
 })
+
+const selectSize = (event: any) => {
+  const clickedSize = event.target
+  if (clickedSize.classList.contains(sizeButtonSelectedClass.value)) {
+    clickedSize.classList.remove(sizeButtonSelectedClass.value)
+    clickedSize.classList.add(sizeButtonClass.value)
+    selectedSize.value = null
+    return
+  }
+  try {
+    // Remove previously-selected size
+    let button = document.getElementsByClassName(sizeButtonSelectedClass.value)[0]
+    button.classList.remove(sizeButtonSelectedClass.value)
+    button.classList.add(sizeButtonClass.value)
+  } catch (error) { /* empty */ }
+  clickedSize.classList.remove(sizeButtonClass.value)
+  clickedSize.classList.add(sizeButtonSelectedClass.value)
+  selectedSize.value = clickedSize.textContent
+  showError.value = false
+}
+
+const addToCart = () => {
+  if (!selectedSize.value) {
+    showError.value = true
+    return
+  }
+  emit('addProductToCart', {
+    title: props.product?.title,
+    price: formattedPrice.value,
+    size: selectedSize.value,
+  })
+}
 </script>
 
 <template>
@@ -30,11 +69,12 @@ const formattedPrice = computed(() => {
       <p class="product__content-size">Size
         <span class="product__content-required">*</span>
       </p>
-      <div class="product__size-button" v-for="size in product?.sizeOptions" :key="size.id">
+      <p v-if="showError" class="product__content-required">You must selected a size to add this item to cart.</p>
+      <div :class="sizeButtonClass" v-for="size in product?.sizeOptions" :key="size.id" @click="selectSize">
         {{ size.label }}
       </div>
 
-      <button class="product__add-to-cart-button">Add to Cart</button>
+      <button class="product__add-to-cart-button" @click="addToCart">Add to Cart</button>
     </div>
   </div>
 </template>
@@ -77,14 +117,18 @@ const formattedPrice = computed(() => {
   margin-top: 2rem;
   margin-bottom: 0.5rem;
 }
-.product__size-button {
+.product__size-button, .product__size-button--selected {
   display: inline-block;
   font-size: 0.7rem;
   border: 1px solid var(--color-border-light);
   padding: 0.8rem 1.2rem;
   margin-right: 0.5rem;
 }
-.product__size-button:hover, .product__add-to-cart-button:hover {
+.product__size-button--selected {
+  color: var(--color-border-dark);
+  border-color: var(--color-border-dark);
+}
+.product__size-button:hover, .product__size-button--selected:hover, .product__add-to-cart-button:hover {
   cursor: pointer;
 }
 .product__add-to-cart-button {

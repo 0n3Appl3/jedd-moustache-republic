@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import ProductItem from './components/ProductItem.vue'
 
 const product = ref()
+const cart: any = ref([])
 
 /*
  * Retrieve product information
@@ -14,15 +15,24 @@ onMounted(async () => {
       product.value = data
     })
 })
+
+const cartSize = computed(() => {
+  return cart.value.length
+})
+
+const addProductToCart = (item: any) => {
+  cart.value.push(item)
+  console.log(cart.value)
+}
 </script>
 
 <template>
   <header>
-    <span>My Cart (0)</span>
+    <span>My Cart ({{ cartSize }})</span>
   </header>
 
   <main>
-    <ProductItem :product="product" />
+    <ProductItem :product="product" @add-product-to-cart="(item) => addProductToCart(item)"/>
   </main>
 </template>
 
