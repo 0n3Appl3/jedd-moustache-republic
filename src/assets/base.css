@@ -1,5 +1,6 @@
 /* color palette from <https://github.com/vuejs/theme> */
 :root {
+  --mr-c-white: #ffffff;
   --mr-c-grey-light-1: #f6f6f7;
   --mr-c-grey-light-2: #ccc;
   --mr-c-grey-dark: #222;
@@ -14,7 +15,7 @@
   --color-required-star: var(--mr-c-red);
   --color-border-light: var(--mr-c-grey-light-2);
   --color-border-dark: var(--mr-c-grey-dark);
-  --color-background: var(--vt-c-white);
+  --color-background: var(--mr-c-white);
   --color-text: var(--mr-c-text-light);
   --color-text-dark: var(--mr-c-text-dark);
 

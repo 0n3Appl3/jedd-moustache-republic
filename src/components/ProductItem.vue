@@ -96,7 +96,6 @@ const addToCart = () => {
   display: grid;
   grid-template-columns: 1fr 1fr;
   justify-self: center;
-
 }
 .product__image > img {
   height: 500px;

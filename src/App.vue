@@ -55,14 +55,14 @@ const getCartItems = computed(() => {
 
 <template>
   <header>
-    <span @click="toggleCart">My Cart ({{ cartSize }})</span>
+    <div @click="toggleCart">My Cart ({{ cartSize }})</div>
+    <div v-if="showCart" class="cart__container">
+      <ItemCartPreview v-for="item in getCartItems" :key="item" :item="item" />
+    </div>
   </header>
 
   <main>
     <ProductItem :product="product" @add-product-to-cart="(item) => addProductToCart(item)" />
-    <div v-if="showCart">
-      <ItemCartPreview v-for="item in getCartItems" :key="item" :item="item" />
-    </div>
   </main>
 </template>
 
@@ -73,11 +73,23 @@ header {
   font-size: 0.7rem;
   text-align: right;
 }
-header > span:hover {
+header > div:hover {
   cursor: pointer;
 }
 main {
+  position: relative;
   padding: 2rem var(--padding-sides);
+}
+.cart__container {
+  position: absolute;
+  right: var(--padding-sides);
+  min-width: 300px;
+  padding: 1rem;
+  float: right;
+  text-align: left;
+  border: 1px solid var(--color-border-light);
+  background-color: var(--color-background);
+  z-index: 99;
 }
 @media screen and (max-width: 800px) {
   header {
@@ -85,6 +97,9 @@ main {
   }
   main {
     padding: 2rem var(--padding-sides-small);
+  }
+  .cart__container {
+    right: var(--padding-sides-small);
   }
 }
 </style>
